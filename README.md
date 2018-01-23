@@ -1,9 +1,13 @@
 # Xiaomi-Dafang-API
 API and panel site for Xiaomi Dafang
 
-CODE | Description
------------- | -------------
-1234 | In soon ...
+This API based on [Xiaomi-Dafang-Hacks](https://github.com/EliasKotlyar/Xiaomi-Dafang-Software)
+
+## How get software and API?
+1. [Installing the Current Dafang Hacks Custom Firmware](https://github.com/EliasKotlyar/Xiaomi-Dafang-Hacks/blob/master/hacks/install_cfw.md).
+2. Clone this repository from github. If you are on windows download the repository as zip file.
+3. Copy everything from "firmware_mod" folder into the root of the MicroSD. You can use FTP.
+4. Open [http://[ip-dafang]/cgi-bin/api.cgi](http://[dafanghacks]/cgi-bin/api.cgi) on your Browser.
 
 
 ### ToDo
