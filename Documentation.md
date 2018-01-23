@@ -44,19 +44,6 @@ Return:
 ```json
 {
 code: 1234,
-status: "info",
-description: "Power off camera..."
-}
-```
-
-## Control LED and IR
-### /cgi-bin/api.cgi?action=blue_led_on
->Safe power off camera.
-
-Return:
-```json
-{
-code: 1234,
 status: "success",
 description: "The hostname has been changed successfully to 'Dafang'."
 }
@@ -73,6 +60,19 @@ description: "The hostname is already set to 'Dafang', so has not been changed."
 code: 1234,
 status: "error",
 description: "An error occurred while changing the hostname."
+}
+```
+
+## Control LED and IR
+### /cgi-bin/api.cgi?action=blue_led_on
+>Safe power off camera.
+
+Return:
+```json
+{
+code: 1234,
+status: "success",
+description: "Blue LED is On."
 }
 ```
 
