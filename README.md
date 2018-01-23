@@ -1,3 +1,4 @@
+[![Donate with PayPal](/Assets/donate.en.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=kszere@gmail.com&lc=PL&item_name=Project+Xiaomi+Dafang+API+on+GitHUB&no_note=0&cn=&curency_code=USD&bn=PP-DonationsBF:btn_donateCC_LG.gif:NonHosted)
 # Xiaomi-Dafang-API
 API and panel site for Xiaomi Dafang
 
