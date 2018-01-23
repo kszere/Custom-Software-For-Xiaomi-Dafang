@@ -1,4 +1,9 @@
 # How use api.cgi?
+## Code informations of request.
+CODE | Description
+------------ | -------------
+1234 | In soon ...
+
 ## Show data from file and system
 ### /cgi-bin/api.cgi?action=showlog or /cgi-bin/api.cgi?action=showlog&raw-0
 >View data from all /var/log/* file in HTML page.
