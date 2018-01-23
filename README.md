@@ -1,6 +1,6 @@
 [![Donate with PayPal](/Assets/donate.en.png)](https://paypal.me/kszere)
-# Xiaomi-Dafang-API
-API and panel site for Xiaomi Dafang
+# Xiaomi Dafang API
+This repository cointains HTTP API and panel site for the Xiaomi Dafang Camera.
 
 ![API return data with JSON](/Assets/api-return-json.png)
 
