@@ -8,7 +8,7 @@ This API based and works with [Xiaomi-Dafang-Hacks](https://github.com/EliasKotl
 
 ## How get software and API?
 1. [Installing the Current Dafang Hacks Custom Firmware](https://github.com/EliasKotlyar/Xiaomi-Dafang-Hacks/blob/master/hacks/install_cfw.md).
-2. Clone this repository from github. If you are on windows download the repository as zip file.
+2. Clone this repository or get Release from GitHub. If you are on windows download the repository as zip file.
 3. Copy everything from "firmware_mod" folder into the root of the MicroSD. You can use FTP.
 4. Open [http://[ip-dafang]/cgi-bin/api.cgi](http://[dafanghacks]/cgi-bin/api.cgi) on your Browser.
 
