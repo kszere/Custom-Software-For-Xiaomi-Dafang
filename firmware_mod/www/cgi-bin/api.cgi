@@ -2,7 +2,7 @@
 
 ###########################################
 # Created by Krzysztof Szeremeta (KSZERE) #
-# kszere@gmail.com          v.0.0.1 Alpha #
+# kszere@gmail.com           v.0.0.2 Beta #
 ###########################################
 
 source func.cgi
@@ -133,6 +133,10 @@ if [ -n "$F_action" ]; then
     getreturn 1234 "success" "IR cut is Off."
     ;;
 # Control Motor PTZ
+  motor_stop)
+    /system/sdcard/bin/motor -d s &>/dev/null &
+    getreturn 1234 "success" "The motor on the camera has stopped."
+    ;;
   motor_left)
     /system/sdcard/bin/motor -d l -s $F_ns &>/dev/null &
     getreturn 1234 "success" "The motor has moved the camera to the left for '$F_ns'ms."
@@ -149,6 +153,11 @@ if [ -n "$F_action" ]; then
     /system/sdcard/bin/motor -d d -s $F_ns &>/dev/null &
     getreturn 1234 "success" "The motor has moved the camera to the down for '$F_ns'ms."
     ;;
+  motor_calibrate)
+     /system/sdcard/bin/motor -d v -s 100 &>/dev/null &
+     /system/sdcard/bin/motor -d h -s 100 &>/dev/null &
+     getreturn 1234 "success" "Motor is calibration on vertical and horizontal."
+  ;;
   motor_vcalibrate)
      /system/sdcard/bin/motor -d v -s 100 &>/dev/null &
      getreturn 1234 "success" "Motor is calibration on vertical."
@@ -159,7 +168,8 @@ if [ -n "$F_action" ]; then
   ;;
 # Control Audio
   audio_test)
-    /system/sdcard/bin/ossplay -g 1000 /usr/share/notify/CN/init_ok.wav
+    /system/sdcard/bin/ossplay -g 1000 /usr/share/notify/CN/init_ok.wav &
+    getreturn 1234 "info" "Play test audio."
     ;;
   audio_record_start)
     /system/sdcard/bin/busybox nohup /system/sdcard/bin/ossrecord /system/sdcard/test.wav &>/dev/null &
