@@ -200,6 +200,8 @@ description: "The motor has moved the camera to the right for '600'ms."
 >Motor is calibration on vertical.
 ### /cgi-bin/api.cgi?action=motorr_hcalibrate
 >Motor is calibration on horizontal.
+### /cgi-bin/api.cgi?action=motor_calibrate
+>Motor is calibration on vertical and horizontal.
 
 ## Control Audio
 ### /cgi-bin/api.cgi?action=audio_test
