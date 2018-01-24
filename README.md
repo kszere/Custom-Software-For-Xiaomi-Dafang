@@ -4,7 +4,7 @@ This repository cointains HTTP API and panel site for the Xiaomi Dafang Camera.
 
 ![API return data with JSON](/Assets/api-return-json.png)
 
-This API based and works with [Xiaomi-Dafang-Hacks](https://github.com/EliasKotlyar/Xiaomi-Dafang-Software).
+This API based and works with [Xiaomi-Dafang-Hacks](https://github.com/EliasKotlyar/Xiaomi-Dafang-Hacks).
 
 ## How get software and API?
 1. [Installing the Current Dafang Hacks Custom Firmware](https://github.com/EliasKotlyar/Xiaomi-Dafang-Hacks/blob/master/hacks/install_cfw.md).
