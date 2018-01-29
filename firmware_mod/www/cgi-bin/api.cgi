@@ -1,9 +1,9 @@
 #!/bin/sh
 
-###########################################
-# Created by Krzysztof Szeremeta (KSZERE) #
-# kszere@gmail.com           v.0.0.2 Beta #
-###########################################
+################################################
+# Created by Krzysztof Szeremeta (KSZERE)      #
+# kszere@gmail.com | 2018-01-28 | v.0.0.3 Beta #
+################################################
 
 source func.cgi
 PATH="/bin:/sbin:/usr/bin:/media/mmcblk0p2/data/bin:/media/mmcblk0p2/data/sbin:/media/mmcblk0p2/data/usr/bin"
