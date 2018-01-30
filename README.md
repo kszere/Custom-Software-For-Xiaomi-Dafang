@@ -30,7 +30,5 @@ This API based and works with [Xiaomi-Dafang-Hacks](https://github.com/EliasKotl
 * [ ] Add additional functions for all Actions if possible it
 * [ ] Create panel with framework CSS on Dafang
 
-test
-
 
 
