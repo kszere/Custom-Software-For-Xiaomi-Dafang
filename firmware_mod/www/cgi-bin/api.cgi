@@ -2,11 +2,15 @@
 
 ################################################
 # Created by Krzysztof Szeremeta (KSZERE)      #
-# kszere@gmail.com | 2018-01-28 | v.0.0.3 Beta #
+# kszere@gmail.com | 2018-01-31 | v.0.0.3 Beta #
 ################################################
 
 source func.cgi
-PATH="/bin:/sbin:/usr/bin:/media/mmcblk0p2/data/bin:/media/mmcblk0p2/data/sbin:/media/mmcblk0p2/data/usr/bin"
+PATH="/system/bin:/bin:/usr/bin:/sbin:/usr/sbin:/media/mmcblk0p2/data/bin:/media/mmcblk0p2/data/sbin:/media/mmcblk0p2/data/usr/bin"
+
+CONFIGPATH=/system/sdcard/config
+BINPATH=/system/sdcard/bin
+SDPATH=/system/sdcard
 
 setgpio(){
   GPIOPIN=$1
@@ -54,21 +58,21 @@ if [ -n "$F_action" ]; then
       echo "</pre>"
     fi
     ;;
-# Control System
+# System Request
   reboot)
-    getreturn 1234 "info" "Rebooting camera..."
+    getreturn 1234 "info" "Camera will reboot."
     /sbin/reboot
     ;;
   poweroff)
-    getreturn 1234 "info" "Power off camera..."
+    getreturn 1234 "info" "Camera will safely power off."
     /sbin/poweroff
     ;;
   sethostname)
     if [ -n "$F_hostname" ]; then
-      if [ $(cat /system/sdcard/config/hostname.conf) != "$F_hostname" ]; then
-        echo "$F_hostname" > /system/sdcard/config/hostname.conf
+      if [ $(cat $CONFIGPATH/hostname.conf) != "$F_hostname" ]; then
+        echo "$F_hostname" > $CONFIGPATH/hostname.conf
         hostname $F_hostname
-        if [ $(cat /system/sdcard/config/hostname.conf) = "$F_hostname" ]; then
+        if [ $(cat $CONFIGPATH/hostname.conf) = "$F_hostname" ]; then
           getreturn 1234 "success" "The hostname has been changed successfully to '$F_hostname'."
         else
           getreturn 1234 "error" "An error occurred while changing the hostname."
@@ -80,21 +84,22 @@ if [ -n "$F_action" ]; then
       getreturn 1234 "info" "The \\\"hostname\\\" parameter is empty, so has not been changed."
     fi
     ;;
-  settz)
-    tz=$(printf '%b' "${F_tz//%/\\x}")
-    if [ $(cat /etc/TZ) != "$tz" ]; then
-    echo "Setting TZ to '$tz'...<br/>"
-    echo "$tz" > /etc/TZ
-    echo "Syncing time...<br/>"
-    /system/sdcard/bin/busybox ntpd -q -n -p time.google.com 2>&1
+  settimezone)
+    if [ -n "$F_timez" ]; then
+      if [ $(cat /etc/TZ) != "$F_tz" ]; then
+        echo "$F_tz" > /etc/TZ
+        if [ $(cat /etc/TZ) = "$F_tz" ]; then
+          $BINPATH/busybox ntpd -q -n -p time.google.com 2>&1
+          getreturn 1234 "success" "The timezone has been changed successfully to '$F_tz'."
+        else
+          getreturn 1234 "error" "An error occurred while changing the timezone."
+        fi
+      else
+        getreturn 1234 "info" "The timezone is already set to '$F_tz', so has not been changed."
+      fi
+    else
+      getreturn 1234 "info" "The 'tz=[value]' parameter is empty, so has not been changed."
     fi
-    hst=$(printf '%b' "${F_hostname//%/\\x}")
-    if [ $(cat /system/sdcard/config/hostname.conf) != "$hst" ]; then
-      echo "Setting hostname to '$hst'...<br/>"
-      echo "$hst" > /system/sdcard/config/hostname.conf
-      hostname $hst
-    fi
-    if [ $? -eq0 0 ]; then echo "<br/>Success<br/>"; else echo "<br/>Failed<br/>"; fi
     ;;
   systeminfo)
     echo "Content-type: application/json; charset=utf-8; Pragma: no-cache; Expires: Wednesday, 27-Dec-95 05:29:10 GMT"
@@ -103,26 +108,33 @@ if [ -n "$F_action" ]; then
     echo "{
   \"code\": 123,
   \"status\": \"info\",
-  \"description\": \"System information\",
+  \"description\": \"System informations\",
   \"system\": {
-    \"kernel\": \"$(/system/sdcard/bin/busybox uname -r)\",
+    \"hostname\": \"$(cat $CONFIGPATH/hostname.conf)\",
+    \"kernel\": \"$($BINPATH/busybox uname -r)\",
     \"uptime\": $(cat /proc/uptime | cut -d. -f1),
     \"cpu_avg\": $(cat /proc/loadavg | cut -d " " -f1),
-    \"disk_space\": {
-      \"total\": $(df | tr -s ' ' $'\t' | grep /dev/mmcblk0p1 | cut -f2),
-      \"used\": $(df | tr -s ' ' $'\t' | grep /dev/mmcblk0p1 | cut -f3),
-      \"free\": $(df | tr -s ' ' $'\t' | grep /dev/mmcblk0p1 | cut -f4)
-    },
     \"datetime\": {
       \"date\": \"$(date +'%Y-%m-%d')\",
       \"time\": \"$(date +'%T')\"
     },
     \"network\": {
-      \"ip\": \"$(ifconfig wlan0 | grep 'inet addr'| cut -d: -f2 | cut -d' ' -f1)\",
       \"mac\": \"$(cat /params/config/.product_config | grep MAC | cut -c16-27 | sed 's/\(..\)/\1:/g;s/:$//')\",
-      \"rx\": $(ifconfig wlan0 | grep 'RX bytes' | cut -d: -f2 | cut -d' ' -f1),
-      \"tx\": $(ifconfig wlan0 | grep 'TX bytes' | cut -d: -f3 | cut -d' ' -f1),
-      \"signal\": $(cat /proc/net/wireless | tr -s ' ' $'\t' | grep wlan0: | cut -f4 | cut -d. -f1)
+      \"router\": {
+        \"name\": \"$(iwgetid -r)\",
+        \"mac\": \"$(iwgetid -r -a)\",
+        \"ip\": \"$(ifconfig wlan0 | grep 'inet addr'| cut -d: -f2 | cut -d' ' -f1)\",
+        \"channel\": $(iwgetid -r -c),
+        \"freq\": \"$(iwgetid -r -f | cut -de -f1)\",
+        \"rx\": $(ifconfig wlan0 | grep 'RX bytes' | cut -d: -f2 | cut -d' ' -f1),
+        \"tx\": $(ifconfig wlan0 | grep 'TX bytes' | cut -d: -f3 | cut -d' ' -f1),
+        \"signal\": $(cat /proc/net/wireless | tr -s ' ' $'\t' | grep wlan0: | cut -f4 | cut -d. -f1)
+      }
+    },
+    \"disk_space\": {
+      \"total\": $(df | tr -s ' ' $'\t' | grep /dev/mmcblk0p1 | cut -f2),
+      \"used\": $(df | tr -s ' ' $'\t' | grep /dev/mmcblk0p1 | cut -f3),
+      \"free\": $(df | tr -s ' ' $'\t' | grep /dev/mmcblk0p1 | cut -f4)
     },
     \"memory\": {
       \"total\": $(cat /proc/meminfo  | tr -s ' ' $'\t' | grep MemTotal: | cut -f2),
@@ -184,45 +196,45 @@ if [ -n "$F_action" ]; then
     ;;
 # Control Motor PTZ
   motor_stop)
-    /system/sdcard/bin/motor -d s &>/dev/null &
+    $BINPATH/motor -d s &>/dev/null &
     getreturn 1234 "success" "The motor on the camera has stopped."
     ;;
   motor_left)
-    /system/sdcard/bin/motor -d l -s $F_ns &>/dev/null &
+    $BINPATH/motor -d l -s $F_ns &>/dev/null &
     getreturn 1234 "success" "The motor has moved the camera to the left for '$F_ns'ms."
     ;;
   motor_right)
-    /system/sdcard/bin/motor -d r -s $F_ns &>/dev/null &
+    $BINPATH/motor -d r -s $F_ns &>/dev/null &
     getreturn 1234 "success" "The motor has moved the camera to the right for '$F_ns'ms."
     ;;
   motor_up)
-    /system/sdcard/bin/motor -d u -s $F_ns &>/dev/null &
+    $BINPATH/motor -d u -s $F_ns &>/dev/null &
     getreturn 1234 "success" "The motor has moved the camera to the up for '$F_ns'ms."
     ;;
   motor_down)
-    /system/sdcard/bin/motor -d d -s $F_ns &>/dev/null &
+    $BINPATH/motor -d d -s $F_ns &>/dev/null &
     getreturn 1234 "success" "The motor has moved the camera to the down for '$F_ns'ms."
     ;;
   motor_calibrate)
-     /system/sdcard/bin/motor -d v -s 100 &>/dev/null &
-     /system/sdcard/bin/motor -d h -s 100 &>/dev/null &
+     $BINPATH/motor -d v -s 100 &>/dev/null &
+     $BINPATH/motor -d h -s 100 &>/dev/null &
      getreturn 1234 "success" "Motor is calibration on vertical and horizontal."
   ;;
   motor_vcalibrate)
-     /system/sdcard/bin/motor -d v -s 100 &>/dev/null &
+     $BINPATH/motor -d v -s 100 &>/dev/null &
      getreturn 1234 "success" "Motor is calibration on vertical."
   ;;
   motor_hcalibrate)
-     /system/sdcard/bin/motor -d h -s 100 &>/dev/null &
+     $BINPATH/motor -d h -s 100 &>/dev/null &
      getreturn 1234 "success" "Motor is calibration on horizontal."
   ;;
 # Control Audio
   audio_test)
-    /system/sdcard/bin/ossplay -g 1000 /usr/share/notify/CN/init_ok.wav &
+    $BINPATH/ossplay -g 1000 /usr/share/notify/CN/init_ok.wav &
     getreturn 1234 "info" "Play test audio."
     ;;
   audio_record_start)
-    /system/sdcard/bin/busybox nohup /system/sdcard/bin/ossrecord /system/sdcard/test.wav &>/dev/null &
+    $BINPATH/busybox nohup $BINPATH/ossrecord $SDPATH/test.wav &>/dev/null &
     getreturn 1234 "info" "Audio recording to the \"audio.wav\" file has been started."
   ;;
   audio_record_stop)
@@ -231,20 +243,62 @@ if [ -n "$F_action" ]; then
   ;;
 # Control Video
   h264_record_start)
-    /system/sdcard/bin/busybox nohup /system/sdcard/bin/h264Snap > /system/sdcard/video.h264 &>/dev/null &
+    $BINPATH/busybox nohup $BINPATH/h264Snap > $SDPATH/video.h264 &>/dev/null &
   ;;
   h264_record_stop)
   killall h264Snap
   getreturn 1234 "success" "The \"ossrecord\" process was killed."
   ;;
   h264_start)
-    /system/sdcard/bin/busybox nohup /system/sdcard/bin/v4l2rtspserver-master -S -W 1920 -H 1080 -F 10 &>/dev/null &
+    $BINPATH/busybox nohup $BINPATH/v4l2rtspserver-master -F 10 &>/dev/null &
     ;;
   mjpeg_start)
-    /system/sdcard/bin/busybox nohup /system/sdcard/bin/v4l2rtspserver-master -fMJPG -W 1920 -H 1080 -F 10 &>/dev/null &
+    $BINPATH/busybox nohup $BINPATH/v4l2rtspserver-master -fMJPG -F 10 &>/dev/null &
   ;;
   rtsp_stop)
     killall v4l2rtspserver-master
+  ;;
+  get_snaphot)
+    if [ `ps | grep v4l2rtspserver-master | grep -v grep | wc -l` -eq 1 ]; then
+      PARAMS=" -v 0 -rtsp_transport tcp -y -i rtsp://0.0.0.0:8554/unicast -vframes 1"
+      if [ -n $F_width -a -n $F_height -a $F_width -eq $F_width -a $F_height -eq $F_height ]; then PARAMS="$PARAMS -s $F_width"x"$F_height"; else PARAMS="$PARAMS -s 640x360"; fi
+      if [ $F_flip == 1 ]; then PARAMS="$PARAMS  -vf transpose=1,transpose=1"; fi
+      PARAMS="$PARAMS -f image2 /run/snaphot.jpg"
+
+      $BINPATH/busybox nohup $BINPATH/avconv $PARAMS
+    else
+      export LD_LIBRARY_PATH=/system/lib
+      export LD_LIBRARY_PATH=/thirdlib:$LD_LIBRARY_PATH
+      PARAMS=""
+
+      if [ $F_nightvision == 1 ]; then PARAMS="$PARAMS -n"; fi
+      if [ $F_flip == 1 ]; then PARAMS="$PARAMS -r"; fi
+      if [ -n $F_width -a $F_width -eq $F_width ]; then PARAMS="$PARAMS -W $F_width"; else PARAMS="$PARAMS -W 1920"; fi
+      if [ -n $F_height -a $F_height -eq $F_height ]; then PARAMS="$PARAMS -H $F_height"; else PARAMS="$PARAMS -H 1080"; fi
+
+      $BINPATH/v4l2rtspserver-master -fMJPG $PARAMS -O /stdout > /run/snaphot.jpg
+    fi
+
+    if [ -e /run/snaphot.jpg ]; then
+      if [ $F_json == 1 ]; then
+        echo "Content-type: application/json; charset=utf-8; Pragma: no-cache; Expires: Wednesday, 27-Dec-95 05:29:10 GMT"
+        echo ""
+        echo "{
+  \"code\": 123,
+  \"status\": \"info\",
+  \"description\": \"Take a snaphot.\",
+  \"snaphot\": \"`cat /run/snaphot.jpg | $BINPATH/busybox base64 | tr -d '\n'`\"
+}"
+        rm /run/snaphot.jpg
+      else
+        echo "Content-type: image/jpg; charset=utf-8; Pragma: no-cache; Expires: Wednesday, 27-Dec-95 05:29:10 GMT"
+        echo ""
+        cat /run/snaphot.jpg
+        rm /run/snaphot.jpg
+      fi
+    else
+      getreturn 1234 "error" "An error occurred while taking snaphot."
+    fi
   ;;
 # Other
   check_light)
@@ -256,12 +310,10 @@ if [ -n "$F_action" ]; then
     fi
   ;;
   xiaomi_start)
+    getreturn 1234 "info" "Official software will running."
     busybox insmod /driver/sinfo.ko  2>&1
     busybox rmmod sample_motor  2>&1
-    #/system/sdcard/bin/busybox insmod /driver/sinfo.ko
-    #rmmod sample_motor
-    #cd /
-    /system/sdcard/bin/busybox nohup /system/bin/iCamera &  &>/dev/null &
+    $BINPATH/busybox nohup /system/bin/iCamera &  &>/dev/null &
   ;;
   *)
   getreturn 1234 "error" "Unsupported command '$F_action'"
@@ -282,6 +334,7 @@ exit 0
 # @RSTP with Auth
 # /system/sdcard/bin/busybox nohup /system/sdcard/bin/v4l2rtspserver-master -fMJPG -U admin:pass &>/dev/null &
 
+# print "Status: 400 Bad Request", "\n\n";
 
 # night_vision_toggle(){
 # if [ $( cat /sys/class/gpio/gpio25/value ) -eq "1" ];
