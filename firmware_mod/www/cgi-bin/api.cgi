@@ -67,7 +67,7 @@ if [ -n "$F_action" ]; then
     getreturn 1234 "info" "Camera will safely power off."
     /sbin/poweroff
     ;;
-  sethostname)
+  set_hostname)
     if [ -n "$F_hostname" ]; then
       if [ $(cat $CONFIGPATH/hostname.conf) != "$F_hostname" ]; then
         echo "$F_hostname" > $CONFIGPATH/hostname.conf
@@ -84,7 +84,7 @@ if [ -n "$F_action" ]; then
       getreturn 1234 "info" "The \\\"hostname\\\" parameter is empty, so has not been changed."
     fi
     ;;
-  settimezone)
+  set_timezone)
     if [ -n "$F_timez" ]; then
       if [ $(cat /etc/TZ) != "$F_tz" ]; then
         echo "$F_tz" > /etc/TZ
