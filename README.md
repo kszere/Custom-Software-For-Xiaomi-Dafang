@@ -23,7 +23,10 @@ This API based and works with [Xiaomi Dafang Hacks](https://github.com/EliasKotl
 * [ ] Create panel with framework CSS on Dafang
 
 ### Changelog
-###### v0.0.4 Beta (not upload)
+###### v0.0.5 Beta (not upload)
+* [ ] added OSD to RTSP and snaphot
+
+###### v0.0.4 Beta
 * [x] added nightvision in ?action=get_snaphot when v4l2rtspserver-master running
 * [x] added home page api.cgi with informations about API
 * [x] update Manual and Documentation API
