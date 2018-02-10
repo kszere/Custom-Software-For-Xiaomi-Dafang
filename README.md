@@ -25,6 +25,8 @@ This API based and works with [Xiaomi Dafang Hacks](https://github.com/EliasKotl
 ### Changelog
 ###### v0.0.4 Beta (not upload)
 * [x] added nightvision in ?action=get_snaphot when v4l2rtspserver-master running
+* [x] added home page api.cgi with informations about API
+* [x] update Manual and Documentation API
 
 ###### v0.0.3 Beta
 * [x] start making GitBook Documentation API [click here](https://kszere.gitbooks.io/xiaomi-dafang-api/content/) \(2018-01-30\)
