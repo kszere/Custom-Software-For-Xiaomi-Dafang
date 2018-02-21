@@ -29,7 +29,7 @@ This Software based with [Xiaomi Dafang Hacks](https://github.com/EliasKotlyar/X
 
 ### Changelog
 ###### v0.0.5 Beta (not upload)
-* [x] rename repo from `Xiaomi-Dafang-API` to `Custom-Software-For-Xiaomi-Dafang` (2018-02-21)
+* [x] rename repo from **Xiaomi-Dafang-API** to **Custom-Software-For-Xiaomi-Dafang** (2018-02-21)
 * [ ] added OSD to RTSP and snaphot
 
 ###### v0.0.4 Beta
