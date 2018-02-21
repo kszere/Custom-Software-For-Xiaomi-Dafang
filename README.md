@@ -30,7 +30,7 @@ Return data in JSON.
 
 ### Changelog
 ###### v0.0.5 Beta (not upload)
-* [ ] rename repo from `Xiaomi-Dafang-API` to `Custom-Software-For-Xiaomi-Dafang`
+* [x] rename repo from `Xiaomi-Dafang-API` to `Custom-Software-For-Xiaomi-Dafang`
 * [ ] added OSD to RTSP and snaphot
 
 ###### v0.0.4 Beta
