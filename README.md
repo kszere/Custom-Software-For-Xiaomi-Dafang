@@ -7,12 +7,6 @@ This repository cointains Custom Software with HTTP API and panel site for the X
 
 This Software based with [Xiaomi Dafang Hacks](https://github.com/EliasKotlyar/Xiaomi-Dafang-Hacks).
 
-## HTTP API
-![API return data with JSON](/assets/api-return-json.png)
-
-Return data in JSON.
-
-
 
 ## Repo Wiki
 * [How add Xiaomi Dafang API on Camera](https://github.com/kszere/Xiaomi-Dafang-API/wiki/How-add-Xiaomi-Dafang-API-on-Camera)
@@ -20,7 +14,11 @@ Return data in JSON.
 
 ## Features
 * HTTP API with return JSON data
-* config for tinyCam App on Android
+
+  ![API return data with JSON](/assets/api-return-json.png)
+* support with app on Android
+  * tinyCam (you must added config file)
+  * IP Cam Viewer (added to app)
 * WEB Panel with HTML5/CSS/JS \(in soon\)
 
 ### ToDo
@@ -31,7 +29,7 @@ Return data in JSON.
 
 ### Changelog
 ###### v0.0.5 Beta (not upload)
-* [x] rename repo from `Xiaomi-Dafang-API` to `Custom-Software-For-Xiaomi-Dafang`
+* [x] rename repo from `Xiaomi-Dafang-API` to `Custom-Software-For-Xiaomi-Dafang` (2018-02-21)
 * [ ] added OSD to RTSP and snaphot
 
 ###### v0.0.4 Beta
