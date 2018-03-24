@@ -1,0 +1,36 @@
+<Camera id="999">
+  <Makes>
+    <Make Name="Xiaomi" Model="Dafang (Custom Software)" />
+  </Makes>
+  <CommandURL>/cgi-bin/api.cgi</CommandURL>
+  <Commands>
+    <Center>?action=motor_calibrate</Center>
+    <Right>?action=set_motor&amp;direction=right</Right>
+    <Left>?action=motor_right</Left>
+    <Down>?action=set_motor&amp;direction=down</Down>
+    <Up>?action=set_motor&amp;direction=up</Up>
+    <Stop>?action=set_motor&amp;direction=stop</Stop>
+    <LeftDown></LeftDown>
+    <RightDown></RightDown>
+    <RightUp></RightUp>
+    <LeftUp></LeftUp>
+    <ZoomIn>
+    </ZoomIn>
+    <ZoomOut>
+    </ZoomOut>
+  </Commands>
+  <ExtendedCommands>
+    <Command Name="Reboot">action=reboot</Command>
+    <Command Name="Power Off">action=poweroff</Command>
+	  <Command Name="Blue Led On">?action=set_led&amp;led=blue&amp;state=1</Command>
+	  <Command Name="Blue Led Off">?action=set_led&amp;led=blue&amp;state=0</Command>
+	  <Command Name="Yellow Led On">?action=set_led&amp;led=yellow&amp;state=1</Command>
+	  <Command Name="Yellow Led Off">?action=set_led&amp;led=yellow&amp;state=0</Command>
+	  <Command Name="IR Led On">?action=set_led&amp;led=ir&amp;state=1</Command>
+	  <Command Name="IR Led Off">?action=set_led&amp;led=ir&amp;state=0</Command>
+	  <Command Name="IR Cut On">?action=set_ir_cut&amp;state=1</Command>
+	  <Command Name="IR Cut Off">?action=set_ir_cut&amp;state=0</Command>
+	  <Command Name="Nightvision On">?action=set_nightvision&amp;state=1</Command>
+	  <Command Name="Nightvision Off">?action=set_nightvision&amp;state=0</Command>
+  </ExtendedCommands>
+</Camera>

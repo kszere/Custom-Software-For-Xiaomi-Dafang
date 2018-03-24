@@ -8,7 +8,10 @@ This repository cointains Custom Software with HTTP API and panel site for the X
 This Software based with [Xiaomi Dafang Hacks](https://github.com/EliasKotlyar/Xiaomi-Dafang-Hacks).
 
 
-## Repo Wiki
+## Manual And Documentation API
+Manual and documentation is make for old version. Please check [all-urls.txt](/docs/all-urls.txt) file.
+* [Manual](https://kszere.gitbooks.io/custom-software-for-xiaomi-dafang-manual/content/)
+* [API Documentation](https://kszere.gitbooks.io/custom-software-for-xiaomi-dafang-doc-api/content/)
 * [How add Xiaomi Dafang API on Camera](https://github.com/kszere/Xiaomi-Dafang-API/wiki/How-add-Xiaomi-Dafang-API-on-Camera)
 * [How add XML config on tinyCam App on Android](https://github.com/kszere/Xiaomi-Dafang-API/wiki/How-add-XML-config-on-tinyCam-App-on-Android)
 
@@ -28,9 +31,21 @@ This Software based with [Xiaomi Dafang Hacks](https://github.com/EliasKotlyar/X
 * [ ] Create panel with framework CSS on Dafang
 
 ### Changelog
-###### v0.0.5 Beta (not upload)
-* [x] rename repo from **Xiaomi-Dafang-API** to **Custom-Software-For-Xiaomi-Dafang** (2018-02-21)
-* [ ] added OSD to RTSP and snaphot
+###### v0.0.5 Beta
+* [x] push v0.0.5 Beta
+* [x] change name repo from **Xiaomi-Dafang-API** to **Custom-Software-For-Xiaomi-Dafang** \(2018-02-21\)
+* [x] refresh home page api.cgi \(2018-02-22\)
+* [x] repair set_timezone action \(2018-02-23\)
+* [x] change url API Documentation And Manual \(2018-02-23\)
+* [x] add Support for iSpy App \(2018-02-24\)
+* [x] Added "camera.conf" configuration file \(2018-02-24\)
+* [x] added OSD to RTSP and snaphot \(2018-02-24\)
+* [x] Added safe test load source \*.cgi files \(2018-02-24\)
+* [x] Added LEDs Switch \(2018-02-24\)
+* [x] Added NightVision Switch \(2018-02-24\)
+* [x] Added Daemon Night Vision Detection \(2018-02-25\)
+* [x] Added auto function for NightVision \(2018-02-25\)
+* [x] Refresh motor functions and added vaild \(2018-02-26\)
 
 ###### v0.0.4 Beta
 * [x] added nightvision in ?action=get_snaphot when v4l2rtspserver-master running
@@ -38,7 +53,7 @@ This Software based with [Xiaomi Dafang Hacks](https://github.com/EliasKotlyar/X
 * [x] update Manual and Documentation API
 
 ###### v0.0.3 Beta
-* [x] start making GitBook Documentation API [click here](https://kszere.gitbooks.io/xiaomi-dafang-api/content/) \(2018-01-30\)
+* [x] start making GitBook Documentation API [click here](https://kszere.gitbooks.io/custom-software-for-xiaomi-dafang-doc-api/content/) \(2018-01-30\)
 * [x] update system informaations on API \(2018-01-31\)
 * [x] added new ?action=get_snaphot for making snaphot, also when running v4l2rtspserver-master \(2018-01-31\)
 * [x] added new ?action=set_timezone for change timezone localy time (\(2018-01-31\))

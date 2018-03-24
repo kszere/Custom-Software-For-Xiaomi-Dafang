@@ -1,0 +1,68 @@
+0 - off
+1 - on
+2 - toggle
+
+/api.cgi
+
+/api.cgi?action=showlog
+RETURN IN HTML
+
+/api.cgi?action=reboot
+/api.cgi?action=poweroff
+/api.cgi?action=set_hostname&hostname=Dafang
+/api.cgi?action=set_timezone&tz=UTC-1:00
+/api.cgi?action=systeminfo
+
+/api.cgi?action=set_led&led=blue&state=0
+/api.cgi?action=set_led&led=blue&state=1
+/api.cgi?action=set_led&led=blue&state=2
+/api.cgi?action=set_led&led=yellow&state=0
+/api.cgi?action=set_led&led=yellow&state=1
+/api.cgi?action=set_led&led=yellow&state=2
+/api.cgi?action=set_led&led=ir&state=0
+/api.cgi?action=set_led&led=ir&state=1
+/api.cgi?action=set_led&led=ir&state=2
+
+/api.cgi?action=set_ir_cut&state=0
+/api.cgi?action=set_ir_cut&state=1
+/api.cgi?action=set_ir_cut&state=2
+
+/api.cgi?action=set_nightvision&state=0
+/api.cgi?action=set_nightvision&state=1
+/api.cgi?action=set_nightvision&state=2
+/api.cgi?action=set_nightvision&auto=0
+/api.cgi?action=set_nightvision&auto=1
+
+/api.cgi?action=set_motor&direction=stop
+/api.cgi?action=set_motor&direction=left
+/api.cgi?action=set_motor&direction=left&ns=100
+/api.cgi?action=set_motor&direction=right
+/api.cgi?action=set_motor&direction=right&ns=100
+/api.cgi?action=set_motor&direction=up
+/api.cgi?action=set_motor&direction=up&ns=100
+/api.cgi?action=set_motor&direction=down
+/api.cgi?action=set_motor&direction=down&ns=100
+
+BOTH MOTORS CALIBRATION
+/api.cgi?action=motor_calibrate
+
+/api.cgi?action=motor_calibrate&calibrate=vertical
+/api.cgi?action=motor_calibrate&calibrate=horizontal
+
+AUDIO SECTION
+VIDEO SECTION
+
+RETURN FRAME STREAM FROM v4l2rtspserver-master
+/api.cgi?action=get_snaphot&raw=0
+/api.cgi?action=get_snaphot&raw=1
+CUSTOM PARAM, COULD COMBINE
+/api.cgi?action=get_snaphot&nightvision=0
+/api.cgi?action=get_snaphot&nightvision=1
+/api.cgi?action=get_snaphot&flip=0
+/api.cgi?action=get_snaphot&flip=1
+/api.cgi?action=get_snaphot&width=1920&height=1080
+/api.cgi?action=get_snaphot&json=0
+/api.cgi?action=get_snaphot&json=1
+
+/api.cgi?action=check_light
+/api.cgi?action=xiaomi_start

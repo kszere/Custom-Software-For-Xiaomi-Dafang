@@ -1,0 +1,59 @@
+#!/bin/sh
+if [ -f /system/sdcard/www/cgi-bin/func.cgi ]; then
+  source /system/sdcard/www/cgi-bin/func.cgi
+else
+  echo "[`date +"%Y-%m-%d %H:%M:%S"`][ERROR] - Functions file 'func.cgi' not found."
+  exit 1
+fi
+
+NAME="Listen To Play"
+NAME_F="listen-to-play"
+PIDFILE="/run/$NAME_F.pid"
+PID="$(cat "$PIDFILE" 2>/dev/null)"
+
+status(){
+  if [ "$PID" ]; then
+    returnLog "i" "Daemon $NAME is running. PID: $PID" || return 1
+  else
+    returnLog "i" "Daemon $NAME is stopped." || return 0
+  fi
+}
+
+start(){
+  if ! [ -f $PIDFILE ]; then
+    /system/sdcard/bin/busybox mkfifo /run/$NAME_F.fifo
+    /system/sdcard/bin/busybox nohup /system/sdcard/scripts/$NAME_F.sh &>/dev/null &
+    echo "$!" > "$PIDFILE"
+    if [ `ps | grep $NAME_F.sh | grep -v grep | wc -l` -eq 1 ]; then
+      returnLog "s" "Starting Daemon $NAME. PID: $(cat "$PIDFILE" 2>/dev/null)."
+    else
+      returnLog "e" "An error occurred while starting Daemon $NAME."
+      exit 1
+    fi
+  else
+    returnLog "i" "Daemon $NAME already running. PID: $PID."
+  fi
+}
+
+stop(){
+  if [ "$PID" ]; then
+     kill $PID &&  rm "$PIDFILE" && rm /run/$NAME_F.fifo
+     if [ $? -eq 0 ]; then
+       returnLog "s" "Stoping Daemon $NAME."
+     else
+       returnLog "e" "An error occurred while stopping Daemon $NAME."
+       exit 1
+     fi
+  else
+    returnLog "i" "Daemon $NAME already stopped."
+  fi
+}
+
+if [ $# -eq 0 ]; then
+  start
+else
+  case $1 in start|stop|status)
+    $1
+    ;;
+  esac
+fi

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vendors>
+    <vendor name="Xiaomi2">
+        <model name="Dafang (Custom Software)" defaultPort="80" defaultRtspPort="8554">
+			      <request name="Snap">/cgi-bin/api.cgi?action=get_snaphot&amp;raw=1</request>
+            <request name="RTSP">/unicast</request>
+            <request name="PtzMoveHome">/cgi-bin/api.cgi?action=motor_calibrate</request>
+            <request name="PtzMoveRelLeft">/cgi-bin/api.cgi?action=set_motor&amp;direction=left</request>
+            <request name="PtzMoveRelRight">/cgi-bin/api.cgi?action=set_motor&amp;direction=right</request>
+            <request name="PtzMoveRelUp">/cgi-bin/api.cgi?action=set_motor&amp;direction=up</request>
+            <request name="PtzMoveRelDown">/cgi-bin/api.cgi?action=set_motor&amp;direction=down</request>
+            <request name="PtzMoveStop">/api.cgi?action=set_motor&amp;direction=stop</request>
+            <request name="LedOn">/cgi-bin/api.cgi?action=set_nightvision&amp;state=1</request>
+            <request name="LedOff">/cgi-bin/api.cgi?action=set_nightvision&amp;state=0</request>
+            <request custom="Play &quot;Test Sound&quot;">/cgi-bin/api.cgi?action=audio_test</request>
+            <request custom="Toogle &quot;Blue LED&quot;">/cgi-bin/api.cgi?action=set_led&amp;led=blue&amp;state=2</request>
+            <request custom="Toogle &quot;Yellow LED&quot;">/cgi-bin/api.cgi?action=set_led&amp;led=yellow&amp;state=2</request>
+      			<request custom="Toogle &quot;IR LED&quot;">/cgi-bin/api.cgi?action=set_led&amp;led=ir&amp;state=2</request>
+            <request custom="Toogle &quot;IR Cut&quot;">/cgi-bin/api.cgi?action=set_ir_cut&amp;state=2</request>
+            <request custom="Start &quot;h264 stream&quot;">/cgi-bin/api.cgi?action=h264_start</request>
+            <request custom="Start &quot;MJPEG stream&quot;">/cgi-bin/api.cgi?action=mjpeg_start</request>
+            <request custom="Stop &quot;MJPEG stream&quot;">/cgi-bin/api.cgi?action=rtsp_stop</request>
+            <request custom="Reboot" confirmation="yes">/cgi-bin/api.cgi?action=reboot</request>
+            <request custom="Poweroff" confirmation="yes">/cgi-bin/api.cgi?action=poweroff</request>
+            <comments>Warning, Test section.</comments>
+            <comments lang="pl">Uwaga, Sekcja testowa.</comments>
+        </model>
+    </vendor>
+</vendors>

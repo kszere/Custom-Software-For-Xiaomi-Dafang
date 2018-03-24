@@ -1,0 +1,89 @@
+#!/bin/sh
+if [ -f /system/sdcard/scripts/func.sh ]; then
+  source /system/sdcard/scripts/func.sh
+else
+  echo "[`date +"%Y-%m-%d %H:%M:%S"`][ERROR] - Functions file 'func.cgi' not found."
+  exit 1
+fi
+
+NAME="Night Vision Detection"
+NAME_F="night-vision-detection"
+PIDFILE="/run/$NAME_F.pid"
+PID="$(cat "$PIDFILE" 2>/dev/null)"
+COUNT_PROCESSES="$(ps | grep $NAME_F.sh | grep -v grep | wc -l)"
+
+status(){
+  if [ $COUNT_PROCESSES -ge 1 ]; then
+    if [ $COUNT_PROCESSES -gt 1 ]; then
+      returnLog "e" "Daemon $NAME started in $COUNT_PROCESSES processes."
+      exit 1
+    fi
+    returnLog "i" "Daemon $NAME is running. PID: $PID" || return 1
+  else
+    returnLog "i" "Daemon $NAME is stopped." || return 0
+  fi
+}
+
+start(){
+  if ! [ -f $PIDFILE -a $COUNT_PROCESSES -ge 1 ]; then
+    /system/sdcard/bin/busybox nohup /system/sdcard/scripts/$NAME_F.sh &>/dev/null &
+    if [ $? -eq 0 ]; then
+      returnLog "s" "Starting Daemon $NAME. PID: $(echo "$!" > "$PIDFILE" | cat "$PIDFILE")."
+    else
+      returnLog "e" "An error occurred while starting Daemon $NAME."
+      exit 1
+    fi
+  else
+    returnLog "i" "Daemon $NAME already running. PID: $PID."
+  fi
+}
+
+stop(){
+  if [ "$PID" -a $COUNT_PROCESSES -gt 1 ]; then
+     kill $PID && rm "$PIDFILE" && rm /run/ldr
+     if [ $? -eq 0 ]; then
+       returnLog "s" "Stopping Daemon $NAME."
+     else
+       returnLog "e" "An error occurred while stopping Daemon $NAME."
+       exit 1
+     fi
+  else
+    returnLog "i" "Daemon $NAME already stopped."
+  fi
+}
+
+forcestopall(){
+  killAll "$NAME_F.sh" &>/dev/null
+  rm "$PIDFILE" /run/ldr &>/dev/null
+  returnLog "i" "Daemon $NAME force stopped ($COUNT_PROCESSES processes)."
+}
+
+help(){
+  echo "./$NAME_F
+./$NAME_F help
+  Return this help.
+
+./$NAME_F status
+  This return info started or stopped Daemon $NAME
+
+./$NAME_F start
+  This will Starting Daemon $NAME
+
+./$NAME_F stop
+  This will stopping Daemon $NAME
+
+  ./$NAME_F forcestopall
+    This will force stopping Daemon $NAME"
+}
+
+if [ $# -eq 0 ]; then
+  help
+else
+  case $1 in start|stop|status|help|forcestopall)
+    $1
+    ;;
+    *)
+      help
+    ;;
+  esac
+fi
